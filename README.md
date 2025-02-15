@@ -18,7 +18,7 @@ The Faro Position Calculator transforms complex faro shuffle mathematics into an
 
 ```bash
 # Clone the repository
-git clone [your-repo-url]
+git clone https://github.com/FaroShuffleWhileCoding/Updated-Faro-Shuffle-Tool-2025.git
 
 # Open index.html in your browser
 # No build step required!
