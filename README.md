@@ -113,4 +113,4 @@ MIT License - See LICENSE file for details
 
 ---
 
-Made with ♥️ by [Ken (FaroShuffleWhileCoding)] for the magic community, mathematicians, and fellow developers
+Made with ♥️ by Ken | FaroShuffleWhileCoding for the magic community, mathematicians, and fellow developers
