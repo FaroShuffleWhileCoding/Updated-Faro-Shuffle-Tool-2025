@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faro Calculator</title>
+    <link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        :root {
+            --primary: #1739e2c1;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .card-animate {
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        .card-enter {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .row-animate {
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .row-enter {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .monospace {
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+        }
+
+        .calculator-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .result-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .shadow-soft {
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div x-data="faroCalculator()" class="calculator-container">
+        <div class="card shadow-soft" 
+             x-transition:enter="card-animate"
+             x-transition:enter-start="card-animate"
+             x-transition:enter-end="card-enter">
+            <div class="card-content">
+                <div class="columns">
+                    <!-- Input Column -->
+                    <div class="column is-one-third">
+                        <div class="content">
+                            <h1 class="title is-4">Faro Shuffle Calculator</h1>
+                            <div class="field">
+                                <label class="label">Starting Position</label>
+                                <div class="control has-icons-left">
+                                    <input 
+                                        x-model.number="startingPosition"
+                                        @input.debounce.300ms="calculatePositions"
+                                        class="input is-medium" 
+                                        type="number" 
+                                        min="1" 
+                                        max="52"
+                                        placeholder="Enter position (1-52)">
+                                    <span class="icon is-left">
+                                        <i class="fas fa-hashtag"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <p class="help is-info">Enter a position between 1 and 52</p>
+                        </div>
+                    </div>
+
+                    <!-- Results Column -->
+                    <div class="column">
+                        <h2 class="subtitle is-5 has-text-weight-semibold mb-4">Position Calculations</h2>
+                        <div class="table-container">
+                            <table class="table is-fullwidth is-hoverable">
+                                <thead>
+                                    <tr class="has-background-light">
+                                        <th class="has-text-weight-semibold">Card Position</th>
+                                        <th class="has-text-weight-semibold">Binary Value</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template x-for="(calc, index) in calculations" :key="index">
+                                        <tr class="result-item"
+                                            x-transition:enter="row-animate"
+                                            x-transition:enter-start="row-animate"
+                                            x-transition:enter-end="row-enter"
+                                            :style="`transition-delay: ${index * 20}ms`">
+                                            <td class="py-3" x-text="`Position ${calc.position}`"></td>
+                                            <td class="py-3 monospace" x-text="calc.binary"></td>
+                                        </tr>
+                                    </template>
+                                    <tr x-show="calculations.length === 0">
+                                        <td colspan="2" class="has-text-centered py-5 has-text-grey">
+                                            Enter a starting position to see results
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('faroCalculator', () => ({
+                startingPosition: '',
+                calculations: [],
+
+                init() {
+                    this.calculatePositions();
+                },
+
+                calculatePositions() {
+                    if (!this.isValidPosition(this.startingPosition)) {
+                        this.calculations = [];
+                        return;
+                    }
+
+                    const newCalculations = [];
+                    for (let i = 1; i <= 52; i++) {
+                        newCalculations.push({
+                            position: i,
+                            binary: this.calculateBase2Position(this.startingPosition, i)
+                        });
+                    }
+                    this.calculations = newCalculations;
+                },
+
+                isValidPosition(position) {
+                    return position >= 1 && position <= 52;
+                },
+
+                calculateBase2Position(startPos, targetPos) {
+                    const keyNumbers = [1, 3, 7, 15, 31, 63];
+                    let numOfShuffles = [0];
+                    let startingPosDoubled = [];
+                    let endingPositions = [];
+                    let currentStartPos = parseInt(startPos) - 1;
+                    let currentEndPos = targetPos - 1;
+
+                    if (numOfShuffles.length < 7) {
+                        for (let s of numOfShuffles) {
+                            currentStartPos *= 2;
+                            startingPosDoubled.push(currentStartPos);
+
+                            while (currentEndPos < startingPosDoubled[s]) {
+                                currentEndPos += 51;
+                            }
+
+                            if (currentEndPos >= startingPosDoubled[s]) {
+                                endingPositions.push(currentEndPos - startingPosDoubled[s]);
+
+                                if (endingPositions[s] > keyNumbers[s]) {
+                                    numOfShuffles.push(numOfShuffles[s] + 1);
+                                } else {
+                                    let faroShuffles = endingPositions[s].toString(2);
+                                    
+                                    if (faroShuffles.length !== numOfShuffles.length && 
+                                        !(numOfShuffles.length > 6)) {
+                                        faroShuffles = faroShuffles.padStart(numOfShuffles.length, "0");
+                                        return faroShuffles;
+                                    } else if (faroShuffles.length === numOfShuffles.length) {
+                                        return faroShuffles;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return 'Invalid';
+                }
+            }))
+        })
+    </script>
+</body>
+</html>
