@@ -1,6 +1,8 @@
-# Faro Position Calculator | New and Improved! 2025 Version
+# Faro Position Calculator
 
 A modern web application for calculating binary positions in faro shuffle sequences, built with Alpine.js. This tool helps magicians and card enthusiasts determine the binary path for moving cards to specific positions using faro shuffles.
+
+[Try the Live Demo Here!](https://faro-shuffle-calc-2025.netlify.app/)
 
 ## Overview
 
@@ -18,7 +20,7 @@ The Faro Position Calculator transforms complex faro shuffle mathematics into an
 
 ```bash
 # Clone the repository
-git clone https://github.com/FaroShuffleWhileCoding/Updated-Faro-Shuffle-Tool-2025.git
+git clone [your-repo-url]
 
 # Open index.html in your browser
 # No build step required!
@@ -81,7 +83,7 @@ Alpine.data('faroCalculator', () => ({
 - Maximum sequence length of 6 shuffles
 - Calculations based on mathematical models
 - Returns 'Invalid' for positions that require more than 6 shuffles
-- Results are limited to binary sequences (Out / Modified In shuffles only)
+- Results are limited to binary sequences (Perfect Out / Modified In shuffles only)
 
 ## Support the Project
 
@@ -110,7 +112,6 @@ Please ensure your code follows the existing style and includes appropriate docu
 ## License
 
 MIT License - See LICENSE file for details
-
 ---
 
-Made with ♥️ by Ken | FaroShuffleWhileCoding for the magic community, mathematicians, and fellow developers
+Made with ♥️ by Ken aka FaroShuffleWhileCoding for the magic community, mathematicians, and fellow developers
