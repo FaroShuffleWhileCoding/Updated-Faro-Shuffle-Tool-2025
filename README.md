@@ -1,4 +1,4 @@
-# Faro Position Calculator
+# Faro Position Calculator | New and Improved!
 
 A modern web application for calculating binary positions in faro shuffle sequences, built with Alpine.js. This tool helps magicians and card enthusiasts determine the binary path for moving cards to specific positions using faro shuffles.
 
