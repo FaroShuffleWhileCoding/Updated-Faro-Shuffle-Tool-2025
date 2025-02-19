@@ -89,7 +89,7 @@ Alpine.data('faroCalculator', () => ({
 
 If this calculator has helped with your card magic or mathematics exploration, consider supporting the development:
 
-![Buy Me a Coffee QR Code](bmc_qr.png)
+![Buy Me a Coffee QR Code](bmc_qr.png){width=200 height=200}
 
 [Buy Me a Coffee!](https://buymeacoffee.com/FaroShuffleWhileCoding)
 
