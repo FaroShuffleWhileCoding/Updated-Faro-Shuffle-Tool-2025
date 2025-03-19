@@ -21,7 +21,6 @@ The Faro Position Calculator transforms complex faro shuffle mathematics into an
 ```bash
 # Clone the repository
 git clone [your-repo-url]
-
 # Open index.html in your browser
 # No build step required!
 ```
@@ -36,12 +35,14 @@ git clone [your-repo-url]
 ## Understanding the Output
 
 The calculator provides binary sequences where:
+
 - Each digit represents one shuffle
 - Read left to right: first shuffle to last shuffle
 - `0` = Out shuffle
 - `1` = Modified In shuffle
 
 Example: `101` represents:
+
 1. Modified In shuffle
 2. Out shuffle
 3. Modified In shuffle
@@ -49,14 +50,15 @@ Example: `101` represents:
 ## Shuffle Specifications
 
 ### Out Shuffle (0)
+
 - Standard out faro cut for 52 cards
 - For 51 cards: Cut 26 to left, 25 to right (when face up)
 
 ### Modified In Shuffle (1)
-- Deck starts face up in left hand
-- Cut 25 to left, 27 to right (52-card deck)
-- Weave together, keeping one card from right packet on top
-- Bottom two cards of right packet remain unweaved
+
+- Cut the top 25 cards into your left hand, and the bottom 27 cards into your right hand
+- Weave together, keeping one card from the right packet at the back of the deck
+- The bottom two cards of the right packet (at the face of the deck) remain unweaved
 
 ## Technical Implementation
 
@@ -68,7 +70,6 @@ calculateBase2Position(startPos, targetPos) {
     const keyNumbers = [1, 3, 7, 15, 31, 63];
     // ... calculation logic
 }
-
 // Reactive data model
 Alpine.data('faroCalculator', () => ({
     startingPosition: '',
@@ -114,6 +115,7 @@ Please ensure your code follows the existing style and includes appropriate docu
 ## License
 
 MIT License - See LICENSE file for details
+
 ---
 
 Made with ♥️ by Ken aka FaroShuffleWhileCoding for the magic community, mathematicians, and fellow developers
